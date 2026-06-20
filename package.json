@@ -1,0 +1,73 @@
+{
+  "name": "@kirkelabs/walletless-kit",
+  "version": "0.1.0",
+  "description": "Walletless web architecture toolkit: low-friction onboarding (ephemeral custodial accounts), receipt-only on-chain proofs, a tamper-evident hash-chained + Merkle audit trail, segregated money ledgers, and a verifiable, recomputable draw. Charity prize-draws are the flagship example; every module is reusable for any walletless commerce flow. Built on @kirkelabs/open-agent-access-core and @kirkelabs/oaa-agent-kit. Free & open source from Kirke Labs.",
+  "type": "module",
+  "bin": {
+    "walletless": "bin/cli.js"
+  },
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "examples/",
+    "LICENSE",
+    "LEGAL.md",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "node --test",
+    "lint": "eslint . --ext .js",
+    "format": "prettier --write \"**/*.{js,json,md}\"",
+    "prepublishOnly": "npm run lint && npm test"
+  },
+  "keywords": [
+    "walletless",
+    "algorand",
+    "custodial",
+    "onboarding",
+    "audit-trail",
+    "merkle",
+    "verifiable-draw",
+    "raffle",
+    "charity",
+    "receipts",
+    "x402",
+    "oaa",
+    "privacy",
+    "gdpr",
+    "cli",
+    "nodejs"
+  ],
+  "author": "Soleman El Gelawi <soleman@kirkelabs.com> (https://www.kirkelabs.com)",
+  "contributors": [
+    "Steve Kirton <steve@kirkelabs.com> (https://www.kirkelabs.com)"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/KirkeLabs/walletless-kit",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KirkeLabs/walletless-kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KirkeLabs/walletless-kit/issues"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "algosdk": "^3.6.0",
+    "@kirkelabs/open-agent-access-core": "^0.1.0",
+    "@kirkelabs/oaa-agent-kit": "^0.7.1"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0"
+  }
+}
