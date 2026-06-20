@@ -1,0 +1,46 @@
+{
+  "quicknet": {
+    "schemeID": "bls-unchained-g1-rfc9380",
+    "chainHash": "52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971",
+    "publicKey": "83cf0f2896adee7eb8b5f01fcad3912212c437e0073e911fb90022d3e760183c8c4b450b6a0a6c3ac6a5776a2d1064510d1fec758c921cc22b0e17e63aaf4bcb5ed66304de9cf809bd274ca73bab4af5a6e9c76a4bc09e76eae8991ef5ece45a",
+    "rounds": [
+      {
+        "round": 1,
+        "randomness": "1466a6cd24e327188770752f6134001c64d6efcc590ccc26b721611ad96f165a",
+        "signature": "b55e7cb2d5c613ee0b2e28d6750aabbb78c39dcc96bd9d38c2c2e12198df95571de8e8e402a0cc48871c7089a2b3af4b",
+        "previous_signature": null
+      },
+      {
+        "round": 1000,
+        "randomness": "fe290beca10872ef2fb164d2aa4442de4566183ec51c56ff3cd603d930e54fdd",
+        "signature": "b44679b9a59af2ec876b1a6b1ad52ea9b1615fc3982b19576350f93447cb1125e342b73a8dd2bacbe47e4b6b63ed5e39",
+        "previous_signature": null
+      },
+      {
+        "round": 5555555,
+        "randomness": "65367bc6437e05504812160bc61b0fe270ebb1c765b363fcc33ed58b961de5fc",
+        "signature": "945ec9e43acd531940a18283c4fe0cb0baf073c37d6e82323ca68e4a41eb9141c0649cc20e7fac83e6abbe7d7c2fc8c8",
+        "previous_signature": null
+      }
+    ]
+  },
+  "defaultMainnet": {
+    "schemeID": "pedersen-bls-chained",
+    "chainHash": "8990e7a9aaed2ffed73dbd7092123d6f289930540d7651336225dc172e51b2ce",
+    "publicKey": "868f005eb8e6e4ca0a47c8a77ceaa5309a47978a7c71bc5cce96366b5d7a569937c529eeda66c7293784a9402801af31",
+    "rounds": [
+      {
+        "round": 2,
+        "randomness": "e8fee7dac6eb2b89df97d631cfccedbada7d5d05495bb546eef462e4145fdf8f",
+        "signature": "aa18facd2d51b616511d542de6f9af8a3b920121401dad1434ed1db4a565f10e04fad8d9b2b4e3e0094364374caafe9b10478bf75650124831509c638b5a36a7a232ec70289f8751a2adb47fc32eb70b57dc81c39d48cbcac9fec46cdfc31663",
+        "previous_signature": "8d61d9100567de44682506aea1a7a6fa6e5491cd27a0a0ed349ef6910ac5ac20ff7bc3e09d7c046566c9f7f3c6f3b10104990e7cb424998203d8f7de586fb7fa5f60045417a432684f85093b06ca91c769f0e7ca19268375e659c2a2352b4655"
+      },
+      {
+        "round": 1000,
+        "randomness": "a40d3e0e7e3c71f28b7da2fd339f47f0bcf10910309f5253d7c323ec8cea3212",
+        "signature": "99bf96de133c3d3937293cfca10c8152b18ab2d034ccecf115658db324d2edc00a16a2044cd04a8a38e2a307e5ecff3511315be8d282079faf24098f283e0ed2c199663b334d2e84c55c032fe469b212c5c2087ebb83a5b25155c3283f5b79ac",
+        "previous_signature": "af0d93299a363735fe847f5ea241442c65843dc1bd3a7b79646b3b10072e908bf034d35cd69d378e3341f139100cd4cd03030399864ef8803a5a4f5e64fccc20bbae36d1ca22a6ddc43d2630c41105e90598fab11e5c7456df3925d4b577b113"
+      }
+    ]
+  }
+}

@@ -104,6 +104,53 @@ export class Ledger {
       winnerProofLink,
     };
   }
+
+  /**
+   * Conservation invariant: you can never allocate (to charity + escrow) plus
+   * deduct in fees MORE than actually came in. A pure, deterministic check over
+   * the three books — the kind of statement an auditor or a charity board can
+   * recompute. `retainedMicro` is what's left for the operator after allocations.
+   *
+   * `fee` entries in ANY book are treated as deductions from inflow; `charity`
+   * and `escrow` book balances are allocations. Returns the breakdown plus a
+   * boolean `balanced` (allocations + fees ≤ inflow) and the residual.
+   * @returns {{balanced:boolean, inflowMicro:number, feesMicro:number, charityMicro:number, escrowMicro:number, retainedMicro:number}}
+   */
+  conservation() {
+    const sum = (arr) => arr.reduce((s, e) => s + e.amountMicro, 0);
+    const inflowMicro = this.balance('inflow');
+    const feesMicro = sum(
+      [...this._books.inflow, ...this._books.charity, ...this._books.escrow].filter(
+        (e) => e.kind === 'fee',
+      ),
+    );
+    const charityMicro = this.balance('charity');
+    const escrowMicro = this.balance('escrow');
+    const retainedMicro = inflowMicro - feesMicro - charityMicro - escrowMicro;
+    return {
+      balanced: retainedMicro >= 0,
+      inflowMicro,
+      feesMicro,
+      charityMicro,
+      escrowMicro,
+      retainedMicro,
+    };
+  }
+
+  /**
+   * Throw unless the conservation invariant holds (allocations + fees ≤ inflow).
+   * Call after posting allocations to fail closed on an over-allocation bug
+   * before it reaches a reconciliation sheet or an on-chain payout.
+   * @returns {Ledger} this (chainable)
+   */
+  assertConservation() {
+    const c = this.conservation();
+    if (!c.balanced)
+      throw new Error(
+        `ledger: conservation violated — allocated/fees (${c.feesMicro + c.charityMicro + c.escrowMicro}) exceed inflow (${c.inflowMicro}) by ${-c.retainedMicro} microALGO`,
+      );
+    return this;
+  }
 }
 
 /** Convenience factory. */

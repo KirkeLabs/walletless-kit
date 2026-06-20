@@ -27,11 +27,30 @@ export {
   merkleRoot,
   merkleProof,
   verifyMerkleProof,
+  consistencyProof,
+  verifyConsistencyProof,
+  trailConsistencyProof,
+  verifyTrailConsistency,
   trailHash,
   trailRoot,
   verifyTrail,
   anchor,
 } from './audit.js';
+
+// Zero-dependency canonical JSON (the hashing primitive the whole kit shares).
+export { canonicalJson } from './merkle.js';
+
+// Independent, dependency-free verifier + portable proof bundle. `verifyDrawProof`
+// re-derives a draw without trusting draw.js; `verifyBundle` checks a whole
+// artifact. See SPEC.md and test/vectors.json (the conformance suite).
+export { bundleProof, verifyBundle, verifyDrawProof, BUNDLE_VERSION } from './verify.js';
+
+// NOTE: real BLS verification of drand beacons (`makeDrandVerifier`,
+// `verifyDrandBeacon`, `DRAND_QUICKNET_SCHEME`, …) is intentionally NOT re-exported
+// here. It needs the OPTIONAL peer dependency `@noble/curves`, so it lives only at
+// the `@kirkelabs/walletless-kit/drand-bls` subpath — keeping this core entrypoint
+// (and the zero-dependency verifier) free of pairing-crypto. Import it explicitly:
+//   import { makeDrandVerifier } from '@kirkelabs/walletless-kit/drand-bls';
 
 export {
   createEphemeralAccount,
@@ -57,8 +76,14 @@ export {
   runDraw,
   publishDrawProof,
   verifyDraw,
+  entryProof,
+  verifyEntryProof,
   commitSeedSource,
   blockHashSeed,
   vrfSeed,
   beaconSeed,
+  drandSeed,
+  drandRoundAt,
+  fetchDrandRound,
+  DRAND_QUICKNET,
 } from './draw.js';

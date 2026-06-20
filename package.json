@@ -7,15 +7,20 @@
     "walletless": "bin/cli.js"
   },
   "exports": {
-    ".": "./src/index.js"
+    ".": "./src/index.js",
+    "./drand-bls": "./src/drand-bls.js",
+    "./verify": "./src/verify.js"
   },
   "files": [
     "bin/",
     "src/",
     "examples/",
+    "test/vectors.json",
+    "test/drand-vectors.json",
     "LICENSE",
     "LEGAL.md",
     "README.md",
+    "SPEC.md",
     "CHANGELOG.md"
   ],
   "publishConfig": {
@@ -62,11 +67,20 @@
     "node": ">=20"
   },
   "dependencies": {
-    "algosdk": "^3.6.0",
+    "@kirkelabs/oaa-agent-kit": "^0.7.1",
     "@kirkelabs/open-agent-access-core": "^0.1.0",
-    "@kirkelabs/oaa-agent-kit": "^0.7.1"
+    "algosdk": "^3.6.0"
+  },
+  "peerDependencies": {
+    "@noble/curves": "^1.9.7"
+  },
+  "peerDependenciesMeta": {
+    "@noble/curves": {
+      "optional": true
+    }
   },
   "devDependencies": {
+    "@noble/curves": "^1.9.7",
     "eslint": "^9.0.0",
     "prettier": "^3.0.0"
   }

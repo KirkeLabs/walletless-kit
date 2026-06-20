@@ -22,10 +22,14 @@ Built on [`@kirkelabs/open-agent-access-core`](https://www.npmjs.com/package/@ki
 | **onboarding** | `createEphemeralAccount` / `rotateAccount` / `expireAccount` / `isExpired` — tightly-scoped, **round-relative auto-expiring** custodial accounts; authority bounded by an oaa-agent-kit mandate. |
 | **identity** | `OtpIdentity` — email/SMS OTP: CSPRNG codes, single-use, expiring, rate-limited, lockout, constant-time compare; stores only **keyed (peppered) pseudonymous** contact refs. |
 | **receipt** | `buildOrderReceipt` / `deterministicOrderId` / `signReceipt` / `verifyReceiptChain` / `attestOnChain` — hash-chained, signed, **non-PII** receipts; only the receipt *hash* goes on-chain. x402 actions via `chargeForAction`. |
-| **audit** | `createTrail` / `append` / `merkleRoot` / `merkleProof` / `verifyMerkleProof` / `anchor` / `verifyTrail` — append-only hash-chained events + an **RFC 6962** Merkle root, periodically anchored on-chain. |
-| **ledger** | `createLedger` — three segregated append-only books (inflow / charity / escrow), **integer-only money**, immutable snapshots, and a per-draw `reconciliationSheet`. |
-| **draw** | `runDraw` / `publishDrawProof` / `verifyDraw` + `commitSeedSource` / `blockHashSeed` / `vrfSeed` / `beaconSeed` — deterministic, recomputable winner selection (no `Math.random`). |
+| **audit** | `createTrail` / `append` / `merkleRoot` / `merkleProof` / `verifyMerkleProof` / `anchor` / `verifyTrail` + `consistencyProof` / `verifyConsistencyProof` / `trailConsistencyProof` — append-only hash-chained events + an **RFC 6962** Merkle root and **consistency proofs** (provably append-only between two anchors), periodically anchored on-chain. |
+| **ledger** | `createLedger` — three segregated append-only books (inflow / charity / escrow), **integer-only money**, immutable snapshots, a per-draw `reconciliationSheet`, and `conservation()` / `assertConservation()` invariants (allocations + fees can never exceed inflow). |
+| **draw** | `runDraw` / `publishDrawProof` / `verifyDraw` + `entryProof` / `verifyEntryProof` (entrant "was my ticket counted?" proofs) + `commitSeedSource` / `blockHashSeed` / `vrfSeed` / `beaconSeed` / `drandSeed` / `drandRoundAt` / `fetchDrandRound` — deterministic, recomputable winner selection (no `Math.random`) with **non-manipulable drand** randomness. |
+| **verify** | `bundleProof` / `verifyBundle` / `verifyDrawProof` — a **zero-dependency** verifier (runs in a browser / offline) and a portable, self-verifying **proof bundle**. Don't trust the producer — recompute it. |
+| **drand-bls** | `makeDrandVerifier` / `verifyDrandBeacon` (`@kirkelabs/walletless-kit/drand-bls`) — **real BLS12-381 verification** that a drand seed is a genuine League-of-Entropy threshold signature, not just well-formed. **Opt-in:** install the optional peer dep (`npm i @noble/curves`); not loaded by the core entrypoint, so the rest of the kit installs no pairing crypto. |
 | **privacy** | `hashPii` / `pseudonymRef` / `eraseSubject` / `assertNoPii` — keyed hashing and random, **erasable** references; PII stays off-chain. |
+
+> **Proof format spec:** the on-the-wire formats are specified in **[SPEC.md](./SPEC.md)** (`walletless-proof/v1`) with frozen conformance vectors in [`test/vectors.json`](./test/vectors.json) — anything that reproduces them interoperates and can verify a draw, trail, or receipt chain independently of this package.
 
 ## Quickstart
 

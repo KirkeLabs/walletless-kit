@@ -1,0 +1,107 @@
+{
+  "merkle": {
+    "items": [
+      {
+        "i": 0,
+        "v": "a"
+      },
+      {
+        "i": 1,
+        "v": "b"
+      },
+      {
+        "i": 2,
+        "v": "c"
+      }
+    ],
+    "root": "ad9038016cbac0607a9d55697fc95fb4ba2479957c19b7442c0381136d984ccb",
+    "empty": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "consistency": {
+    "items": [
+      {
+        "i": 0,
+        "v": "a"
+      },
+      {
+        "i": 1,
+        "v": "b"
+      },
+      {
+        "i": 2,
+        "v": "c"
+      },
+      {
+        "i": 3,
+        "v": "d"
+      },
+      {
+        "i": 4,
+        "v": "e"
+      },
+      {
+        "i": 5,
+        "v": "f"
+      },
+      {
+        "i": 6,
+        "v": "g"
+      }
+    ],
+    "oldSize": 3,
+    "oldRoot": "ad9038016cbac0607a9d55697fc95fb4ba2479957c19b7442c0381136d984ccb",
+    "newRoot": "4cf2fe0f243d015dbb079ef81ba243162c3045836211e2e5ac1dbd310eed8104",
+    "newSize": 7,
+    "proof": [
+      "bcb2d59ec5e39006a1849c837748c2a01c9bc72c12b094dd7924a87ec3ef5c7a",
+      "42f306854a1e45000ca8428a885a083cc7ae23ea013d38a5c93a623840957435",
+      "1ee35ef00a46acd051a6ee6302b7744123fe40eb122cc1811b749e637351d9f1",
+      "3eca0c9c81749ef476c4ef5bd2fd96857a41c9acf5cefc347cc0f7acf68a990c"
+    ]
+  },
+  "draw": {
+    "entries": [
+      "refA",
+      "refB",
+      "refC",
+      "refD",
+      "refE"
+    ],
+    "algorithm": "fisher-yates-sha256-v1",
+    "seed": "committed-seed-v1",
+    "entryCount": 5,
+    "entriesRoot": "e9ebb4b3a89ca3a0e55cd438dcbb5d550f5b8095ef5143c972cfa68b0dd05291",
+    "winners": [
+      "refB",
+      "refA"
+    ],
+    "winnerIndices": [
+      1,
+      0
+    ]
+  },
+  "entryInclusion": {
+    "entry": "refD",
+    "index": 3,
+    "leaf": "81f104ecd0f0586039e8ca1cca719672ccf4cb4c24bbde6b95f829eb6d8ccc01",
+    "path": [
+      {
+        "side": "left",
+        "hash": "f6072b32af474f7d54435beb393ecc946b499d809f5248b4c63301062740a578"
+      },
+      {
+        "side": "left",
+        "hash": "cc6bff02c29f94a13b842da42e138f8c0b6b18aee115028e788edfd8cda16478"
+      },
+      {
+        "side": "right",
+        "hash": "e272792fb87ac12f2a1aa54f84722cf368df721218ee6c2ee662ecb20e18c012"
+      }
+    ]
+  },
+  "drand": {
+    "round": 1234,
+    "signature": "1a2b3c4d5e6f",
+    "randomness": "948a85c2414389065a8fbada0bf8a1f430c526e716544e19b1032c05544dab31"
+  }
+}

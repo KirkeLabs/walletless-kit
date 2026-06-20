@@ -12,96 +12,41 @@
  * so it is built defensively (see `merkleRoot`).
  */
 
-import { createHash } from 'node:crypto';
 import algosdk from 'algosdk';
 import {
   appendAccessEvent,
   verifyAccessEventTrail,
   hashAccessEvents,
-  canonicalizeJson,
 } from '@kirkelabs/open-agent-access-core';
+// The Merkle math lives in the zero-dependency `merkle.js` core so the standalone
+// verifier (`verify.js`) and any second implementation can reproduce these exact
+// roots without pulling in algosdk or oaa-core.
+import {
+  merkleRoot,
+  merkleProof,
+  verifyMerkleProof,
+  consistencyProof,
+  verifyConsistencyProof,
+} from './merkle.js';
 
-const MAX_LEAVES = 1_000_000; // DoS bound
-// RFC 6962 domain-separation tags: leaves and internal nodes are hashed in
-// DIFFERENT domains so a leaf can never be reinterpreted as an internal node
-// (which would otherwise enable second-preimage forgery of the root).
-const LEAF = Buffer.from([0x00]);
-const NODE = Buffer.from([0x01]);
-
-function sha256(...bufs) {
-  const h = createHash('sha256');
-  for (const b of bufs) h.update(b);
-  return h.digest();
-}
-/** Injective leaf encoding via canonical JSON, then domain-tagged hash. */
-function leafHash(item) {
-  return sha256(LEAF, Buffer.from(canonicalizeJson(item), 'utf8'));
-}
+export { merkleRoot, merkleProof, verifyMerkleProof, consistencyProof, verifyConsistencyProof };
 
 /**
- * Deterministic Merkle root (hex) over an ordered list of items.
- *
- * Defensive choices:
- *  - Domain separation: leaf = H(0x00‖data), node = H(0x01‖left‖right).
- *  - A lone (odd) node is PROMOTED to the next level unchanged — it is NOT
- *    duplicated (duplicating the last node is the Bitcoin CVE-2012-2459
- *    ambiguity, where two different trees share a root).
- *  - Empty list → H("") (RFC 6962 empty-tree root). Single item → its leaf hash.
+ * Consistency proof that the first `oldSize` events of `trail` (an earlier,
+ * already-anchored state) are a verbatim prefix of the trail as it stands now —
+ * i.e. the operator only APPENDED and never rewrote history. This is the RFC 6962
+ * append-only guarantee; pair it with the on-chain anchors from `anchor()`:
+ * anchor the root at size m, later anchor the root at size n, and anyone can prove
+ * the m→n transition was append-only with `verifyTrailConsistency`.
+ * @returns {{oldSize:number,newSize:number,proof:string[]}}
  */
-export function merkleRoot(items) {
-  if (!Array.isArray(items)) throw new Error('merkleRoot: items must be an array');
-  if (items.length > MAX_LEAVES) throw new Error('merkleRoot: too many leaves');
-  if (items.length === 0) return sha256(Buffer.alloc(0)).toString('hex');
-  let level = items.map(leafHash);
-  while (level.length > 1) {
-    const next = [];
-    for (let i = 0; i < level.length; i += 2) {
-      next.push(i + 1 < level.length ? sha256(NODE, level[i], level[i + 1]) : level[i]);
-    }
-    level = next;
-  }
-  return level[0].toString('hex');
+export function trailConsistencyProof(trail, oldSize) {
+  return consistencyProof(trail?.events ?? [], oldSize);
 }
 
-/**
- * Inclusion proof for the item at `index`. Returns the sibling hashes (hex) and
- * their side, which `verifyMerkleProof` replays to recompute the root.
- */
-export function merkleProof(items, index) {
-  if (!Array.isArray(items) || index < 0 || index >= items.length)
-    throw new Error('merkleProof: index out of range');
-  let level = items.map(leafHash);
-  let idx = index;
-  const path = [];
-  while (level.length > 1) {
-    const next = [];
-    for (let i = 0; i < level.length; i += 2) {
-      if (i + 1 < level.length) {
-        next.push(sha256(NODE, level[i], level[i + 1]));
-        if (i === idx) path.push({ side: 'right', hash: level[i + 1].toString('hex') });
-        else if (i + 1 === idx) path.push({ side: 'left', hash: level[i].toString('hex') });
-      } else {
-        next.push(level[i]); // promoted; no sibling recorded for the lone node
-      }
-    }
-    idx = Math.floor(idx / 2);
-    level = next;
-  }
-  return { index, leaf: leafHash(items[index]).toString('hex'), path };
-}
-
-/** Verify an inclusion proof against an expected root. */
-export function verifyMerkleProof({ leaf, path, root }) {
-  try {
-    let acc = Buffer.from(String(leaf), 'hex');
-    for (const step of path || []) {
-      const sib = Buffer.from(String(step.hash), 'hex');
-      acc = step.side === 'left' ? sha256(NODE, sib, acc) : sha256(NODE, acc, sib);
-    }
-    return { ok: acc.toString('hex') === String(root) };
-  } catch (e) {
-    return { ok: false, reason: `verify_error:${e.message}` };
-  }
+/** Verify a trail consistency proof between two anchored roots. Never throws. */
+export function verifyTrailConsistency(args) {
+  return verifyConsistencyProof(args);
 }
 
 /** A fresh empty trail. */
