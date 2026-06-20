@@ -6,3 +6,5 @@ dist/
 .env
 *.key
 owner.json
+# Internal handoff doc (local paths / dev notes) — not for the public repo.
+HANDOFF.md
