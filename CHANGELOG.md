@@ -3,6 +3,14 @@
 All notable changes are documented here. Format: [Keep a Changelog](https://keepachangelog.com/);
 versioning: [SemVer](https://semver.org/).
 
+## [0.2.1] — 2026-06-20
+
+### Fixed
+
+- Expose `./package.json` in the `exports` map so tooling that reads the manifest
+  via a subpath import no longer hits `ERR_PACKAGE_PATH_NOT_EXPORTED`. No API or
+  behaviour change.
+
 ## [0.2.0] — 2026-06-20
 
 Verifiable-trust release: make every result independently checkable against a

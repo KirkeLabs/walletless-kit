@@ -1,6 +1,6 @@
 {
   "name": "@kirkelabs/walletless-kit",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Walletless web architecture toolkit: low-friction onboarding (ephemeral custodial accounts), receipt-only on-chain proofs, a tamper-evident hash-chained + Merkle audit trail, segregated money ledgers, and a verifiable, recomputable draw. Charity prize-draws are the flagship example; every module is reusable for any walletless commerce flow. Built on @kirkelabs/open-agent-access-core and @kirkelabs/oaa-agent-kit. Free & open source from Kirke Labs.",
   "type": "module",
   "bin": {
@@ -9,7 +9,8 @@
   "exports": {
     ".": "./src/index.js",
     "./drand-bls": "./src/drand-bls.js",
-    "./verify": "./src/verify.js"
+    "./verify": "./src/verify.js",
+    "./package.json": "./package.json"
   },
   "files": [
     "bin/",
