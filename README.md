@@ -1,8 +1,12 @@
 # @kirkelabs/walletless-kit
 
+[![npm version](https://img.shields.io/npm/v/@kirkelabs/walletless-kit?color=00dc94&style=flat)](https://www.npmjs.com/package/@kirkelabs/walletless-kit)
+[![npm downloads](https://img.shields.io/npm/dm/@kirkelabs/walletless-kit?color=00dc94&style=flat)](https://www.npmjs.com/package/@kirkelabs/walletless-kit)
 [![License: MIT](https://img.shields.io/badge/license-MIT-00dc94?style=flat)](./LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-00dc94?style=flat)](https://nodejs.org)
 [![Algorand](https://img.shields.io/badge/Algorand-TestNet%20by%20default-00dc94?style=flat)](https://algorand.co)
+[![CI](https://github.com/KirkeLabs/walletless-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/KirkeLabs/walletless-kit/actions/workflows/ci.yml)
+[![Provenance](https://img.shields.io/badge/npm%20provenance-ready-00dc94?style=flat)](https://docs.npmjs.com/generating-provenance-statements)
 
 **Walletless web architecture: onboard users with no wallet, prove what happened with receipts (not personal data), keep a tamper-evident audit trail and clean money trails, and run a draw anyone can recompute.** Charity prize-draws are the flagship example; every module is reusable for any walletless commerce flow.
 
@@ -88,7 +92,11 @@ These are non-negotiable; the modules enforce or document them.
 
 ## Supply chain
 
-Pinned dependency floors + committed lockfile; CI runs lint, tests, and `npm audit` on Node 20 & 22 with least-privilege permissions and SHA-pinned actions; `release.yml` publishes with **npm provenance** via OIDC. Report security issues to **security@kirkelabs.com** ([SECURITY.md](./SECURITY.md)).
+Pinned dependency floors + committed lockfile; CI runs lint, tests, and `npm audit` on Node 20 & 22 with least-privilege permissions and SHA-pinned actions.
+
+Releases are published from GitHub Actions with `id-token: write` and `npm publish --provenance --access public`, so new npm releases can carry Sigstore-backed provenance linking the tarball to the public repository, workflow, and commit. Verify installed package signatures and attestations with `npm audit signatures` on a recent npm CLI.
+
+Report security issues to **security@kirkelabs.com** ([SECURITY.md](./SECURITY.md)).
 
 ## Licence
 
